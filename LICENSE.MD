@@ -1,0 +1,1 @@
+(c) Copyright 2020 Nico Wehmöller, all rights reserved.

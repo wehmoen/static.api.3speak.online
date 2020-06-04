@@ -1,0 +1,18 @@
+{
+  "name": "3speak-static-api",
+  "version": "1.0.0",
+  "description": "Static APIs for 3Speak",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js --env=dev",
+    "daemon": "pm2 start server.js --name=threespeak-static-api"
+  },
+  "keywords": [],
+  "author": "Nico Wehmöller",
+  "license": "SEE LICENSE IN LICENSE.MD",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.9.17"
+  }
+}
