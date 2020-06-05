@@ -119,6 +119,17 @@ module.exports = {
 
         return filterFeed(curatedVideos)
     },
+    getChannelFeed: async (channel, skip = 0, limit = 100, query = {}) => {
+
+        const params = {
+            owner: channel,
+            status: "published"
+        }
+
+        const channelVideos = await database.Video.find(Object.assign(query, params)).sort('-created').skip(skip).limit(limit)
+
+        return filterFeed(channelVideos)
+    },
     getPinnedFeed: async (skip = 0, limit = 100) => {
 
         const params = {

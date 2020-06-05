@@ -38,5 +38,13 @@ router.get('/pinned', async (req, res) => {
     })
 })
 
+router.get('/channel/:channel', async (req, res) => {
+    const channelVideos = await utils.getChannelFeed(req.params.channel, utils.tryCastInt(req.query.skip));
+
+    res.json({
+        error: null,
+        data: channelVideos
+    })
+})
 
 module.exports = router;
