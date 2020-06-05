@@ -3,6 +3,14 @@
 This is the documentation fpr the 3Speak Static API. 
 The static API includes exclusively public APIs.
 
+## Setup
+
+1. Clone the repository `git clone git@github.com:wehmoen/static.api.3speak.online.git`,
+2. `cd static.api.3speak.online`
+3. Install dependencies: `npm install`
+4. During development, you can overwrite the used mongo database by providing the environment variable: `MONGO_DATABASE`. The default value is `threespeak_dev`
+5. Run the setup: `node setup.js` for production or `node setup.js dev` for your development environment
+6. To start the API use: `npm start` for production or `node run-script dev` for your development environment
 
 ## Response Format
 
@@ -83,6 +91,27 @@ Returns a feed of pinned videos for the front page.
 #### Parameter: 
 
 `skip` => Skip X number of videos
+---
+### `/feed/channel/:channel`
+
+Returns a feed of videos for the given channel. 
+
+#### Parameter: 
+
+`:channel` => The channel name
+
+`skip` => Skip X number of videos
+
+## Global Settings
+
+The `/settings` apis return global configuration properties for 3Speak.
+
+---
+### `/`
+
+Returns the list of global configuration properties. If the response contains a `maintenance` object it includes a `start`, `end` and `notice` field that contain informations about upcomming maintenances.
+
+---
 
 
 

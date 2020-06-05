@@ -7,6 +7,24 @@ const threespeak = mongoose.createConnection(config.MONGO_CONNECTION_URI, {
     useUnifiedTopology: true
 });
 
+const AppConfigurationSchema = new mongoose.Schema({
+    version: {
+        type: String,
+        validate: {
+            validator: function(v) {
+                return /\d{1,3}.\d{1,2}.\d{1,4}/.test(v);
+            },
+            message: props => `${props.value} is not a valid version number!`
+        },
+        required: true
+    },
+    maintenance: {
+        start: Date,
+        end: Date,
+        notice: String
+    }
+}, { capped: { max: 1, autoIndexId: true }})
+
 const VideoSchema = new mongoose.Schema({
     filename: {type: String, required: true},
     title: String,
@@ -36,7 +54,9 @@ const VideoSchema = new mongoose.Schema({
 });
 
 const Video = threespeak.model("Video", VideoSchema);
+const AppConfiguration = threespeak.model("AppConfiguration", AppConfigurationSchema);
 
 module.exports = {
-    Video
+    Video,
+    AppConfiguration
 }
