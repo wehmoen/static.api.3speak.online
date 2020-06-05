@@ -65,7 +65,11 @@ function filterFeed(videos) {
 }
 
 module.exports = {
-    getTrendingFeed: async (limit = 100, skip = 0, query = {}, languages = []) => {
+    tryCastInt: (input, fallback = 0) => {
+        input = parseInt(input);
+        return isNaN(input) ? fallback : input
+    },
+    getTrendingFeed: async (skip = 0, limit = 100, query = {}, languages = []) => {
         const lastWeekStart = (new Date()).setDate((new Date()).getDate() - 7);
 
         const params = {
@@ -83,7 +87,7 @@ module.exports = {
 
         return filterFeed(trendingVideos)
     },
-    getNewFeed: async (limit = 100, skip = 0, query = {}, languages = []) => {
+    getNewFeed: async (skip = 0, limit = 100, query = {}, languages = []) => {
 
         const params = {
             status: "published",
@@ -99,7 +103,7 @@ module.exports = {
 
         return filterFeed(newVideos)
     },
-    getCuratedFeed: async (limit = 100, skip = 0, query = {}, languages = []) => {
+    getCuratedFeed: async (skip = 0, limit = 100, query = {}, languages = []) => {
 
         const params = {
             recommended: true,
@@ -115,7 +119,7 @@ module.exports = {
 
         return filterFeed(curatedVideos)
     },
-    getPinnedFeed: async (limit = 100, skip = 0) => {
+    getPinnedFeed: async (skip = 0, limit = 100) => {
 
         const params = {
             status: "published",

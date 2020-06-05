@@ -3,7 +3,7 @@ const utils = require('../helper/utils');
 const router = require('express').Router();
 
 router.get('/new', async (req, res) => {
-    let newVideos = await utils.getNewFeed();
+    let newVideos = await utils.getNewFeed(utils.tryCastInt(req.query.skip));
 
     res.json({
         error: null,
@@ -12,7 +12,7 @@ router.get('/new', async (req, res) => {
 })
 
 router.get('/trending', async (req, res) => {
-    const trendingVideos = await utils.getTrendingFeed();
+    const trendingVideos = await utils.getTrendingFeed(utils.tryCastInt(req.query.skip));
 
     res.json({
         error: null,
@@ -21,7 +21,7 @@ router.get('/trending', async (req, res) => {
 })
 
 router.get('/curated', async (req, res) => {
-    const curatedVideos = await utils.getCuratedFeed();
+    const curatedVideos = await utils.getCuratedFeed(utils.tryCastInt(req.query.skip));
 
     res.json({
         error: null,
@@ -30,7 +30,7 @@ router.get('/curated', async (req, res) => {
 })
 
 router.get('/pinned', async (req, res) => {
-    const pinnedVideos = await utils.getPinnedFeed();
+    const pinnedVideos = await utils.getPinnedFeed(utils.tryCastInt(req.query.skip));
 
     res.json({
         error: null,
