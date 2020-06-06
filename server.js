@@ -6,5 +6,6 @@ express.get('/', (req, res) => res.json({
 
 express.use('/feed', router.feed);
 express.use('/settings', router.settings);
+express.use('/leaderboard', router.leaderboard);
 
 express.listen(config.HTTP_PORT, () => console.log(`API is listening at http://0.0.0.0:${config.HTTP_PORT}`))

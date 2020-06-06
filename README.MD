@@ -113,5 +113,11 @@ Returns the list of global configuration properties. If the response contains a 
 
 ---
 
+## Leaderboard
 
+The `/leaderboard` returns a list of channels sorted descending by their platform score. The score is calculated with a proprietary algorithm.
+  
+---
+
+### `/`
 

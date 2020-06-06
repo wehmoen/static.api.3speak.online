@@ -53,10 +53,33 @@ const VideoSchema = new mongoose.Schema({
     upvoteEligible: {type: Boolean, default: true}
 });
 
+const ContentCreatorSchema = new mongoose.Schema({
+    username: {type: String, required: true},
+    banned: {type: Boolean, required: true, default: false},
+    canProxyUpvote: {type: Boolean, required: true, default: false},
+    queuedCanProxyUpvote: {type: Boolean, required: true, default: false},
+    upvoteDay: {type: Number},
+    queuedUpvoteDay: {type: Number},
+    queuedLimit: {type: Number, required: false, default: 0},
+    hidden: {type: Boolean, required: true, default: false},
+    isCitizenJournalist: {type: Boolean, required: false, default: false},
+    verified: {type: Boolean, required: true, default: false},
+    joined: {type: Date, required: true, default: Date.now()},
+    score: {type: Number, required: true, default: 0},
+    badges: {
+        type: [String],
+        required: true,
+        default: []
+    },
+    darkMode:{type: Boolean, required: true, default: false}
+});
+
 const Video = threespeak.model("Video", VideoSchema);
 const AppConfiguration = threespeak.model("AppConfiguration", AppConfigurationSchema);
+const ContentCreator = threespeak.model("ContentCreator", ContentCreatorSchema);
 
 module.exports = {
     Video,
-    AppConfiguration
+    AppConfiguration,
+    ContentCreator
 }
