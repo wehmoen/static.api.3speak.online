@@ -4,10 +4,11 @@ const router = require('express').Router();
 
 router.get('/', async (req, res) => {
     let appConfiguration = await database.AppConfiguration.findOne();
-    appConfiguration = appConfiguration.toObject();
-    delete appConfiguration._id;
-    delete appConfiguration['__v'];
-
+    if (appConfiguration !== null) {
+        appConfiguration = appConfiguration.toObject();
+        delete appConfiguration._id;
+        delete appConfiguration['__v'];
+    }
     res.json({
         error: null,
         data: [appConfiguration]
