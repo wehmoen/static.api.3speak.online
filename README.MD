@@ -121,3 +121,20 @@ The `/leaderboard` returns a list of channels sorted descending by their platfor
 
 ### `/`
 
+Returns the leaderboard.
+
+---
+## Video
+
+The `/video` API provides access to videos and recommended videos.
+
+---
+
+### `/:permlink`
+
+Returns one single video by its permlink.
+
+### `/:permlink/recommended`
+
+Returns recommended video selection for JWPlayer
+
