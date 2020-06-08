@@ -20,6 +20,15 @@ function processTags(tags) {
     return processed.length === 0 ? fallback : processed;
 }
 
+function transformVideo(video) {
+    video = (new database.Video(video)).toObject()
+    video.tags = processTags(video.tags.split(","))
+    video.hive = video.hive.startsWith("hive-") ? video.hive : 'hive-181335'
+    delete video._id;
+    delete video['__v'];
+    return video;
+}
+
 function filterFeed(videos) {
     const author_video_count = {};
 
@@ -53,12 +62,7 @@ function filterFeed(videos) {
     const collection = [];
 
     for (let video of feed) {
-        video = (new database.Video(video)).toObject()
-        video.tags = processTags(video.tags.split(","))
-        video.hive = video.hive.startsWith("hive-") ? video.hive : 'hive-181335'
-        delete video._id;
-        delete video['__v'];
-        collection.push(video)
+        collection.push(transformVideo(video))
     }
 
     return collection;
@@ -69,6 +73,7 @@ module.exports = {
         input = parseInt(input);
         return isNaN(input) ? fallback : input
     },
+    transformVideo,
     getTrendingFeed: async (skip = 0, limit = 100, query = {}, languages = []) => {
         const lastWeekStart = (new Date()).setDate((new Date()).getDate() - 7);
 
@@ -140,5 +145,34 @@ module.exports = {
         const curatedVideos = await database.Video.find(params).sort('-created').skip(skip).limit(limit)
 
         return filterFeed(curatedVideos)
+    },
+    getRecommendedVideos: async(author, languages = [],limit=25, embeded = false) => {
+        const query = {status: 'published', $or: [{owner: author}]};
+        if (languages.length > 0) {
+
+            query.language = {$in: languages};
+
+        }
+
+        const rawVideos = await database.Video.aggregate([{$match: query}, {$sample: {size: limit}}]);
+
+        const feed = [];
+
+        for (let video of rawVideos) {
+            const feedItem = {
+                image: 'https://img.3speakcontent.online/' + video.permlink + '/poster.png',
+                title: video.title,
+                mediaid: video.permlink,
+                owner: video.owner
+            }
+
+            if (embeded === true) {
+                feedItem.file = 'https://cdn.3speakcontent.online/' + video.permlink + '/default.m3u8'
+            }
+
+            feed.push(feedItem)
+        }
+
+        return feed;
     }
 }
